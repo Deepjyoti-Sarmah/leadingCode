@@ -130,7 +130,7 @@ app.get("/problems/:id", (req, res) => {
 
 app.get("/me", auth, (req, res) => {
     const user = USERS.find((x) => x.id === req.userId);
-    req.json({email: user.email, id: user.id});
+    res.json({ email: user.email, id: user.id });
 });
 
 app.get("/submissions/:problemId", auth, (req, res) => {
@@ -174,13 +174,13 @@ app.post("/submission", auth, (req, res) => {
 app.post("/signup", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    if(USERS.find((x)=> x.email === email)) {
-        return res.status(403).json({msg: "Email already exists"});
+    if (USERS.find((x) => x.email === email)) {
+        return res.status(403).json({ msg: "Email already exists" });
     }
 
     USERS.push({
-        email: email,
-        password: password,
+        email,
+        password,
         id: USER_ID_COUNTER++,
     });
 
@@ -192,14 +192,14 @@ app.post("/signup", (req, res) => {
 app.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    const user = USERS.find((x) => x.email=== email);
+    const user = USERS.find((x) => x.email === email);
 
     if (!user) {
-        return res.status(403).json({msg: "User not found"});
+        return res.status(403).json({ msg: "User not found" });
     }
 
     if (user.password !== password) {
-        return res.status(403).json({msg: "Incorrect password"});
+        return res.status(403).json({ msg: "Incorrect password" });
     }
 
     const token = jwt.sign(
@@ -208,7 +208,7 @@ app.post("/login", (req, res) => {
         },
         JWT_SECRET
     );
-    return res.json({token});
+    return res.json({ token });
 });
 
 app.listen(port, () => {
