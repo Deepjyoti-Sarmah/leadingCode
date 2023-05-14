@@ -26,8 +26,9 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
-                    <Route path="/problemset/all" element={<ProblemSet problems={problems} />} />
-                    <Route path="/problems/:_id" element={<SingleProblem />} />
+                    <Route path="/problems/all" element={<ProblemSet />} />
+                    <Route path="/problems/:pid" element={<SingleProblem />} />
+
                 </Routes>
             </BrowserRouter>
         </>

@@ -6,7 +6,7 @@ import { Fragment, useState } from 'react';
 import defaultCodeSnippets from "./defaultCodeSnippets"
 
 const ProblemDescription = (props) => {
-    const { id, title, statement, examples } = props;
+    const { id, title, statement} = props;
     const [solutionLanguage, setSolutionLanguage] = useState("cpp");
 
     return (
@@ -18,7 +18,7 @@ const ProblemDescription = (props) => {
                             {id}. {title}
                         </h1>
                         <div className="mt-4 text-base font-normal">{statement}</div>
-                        {examples.map((example, idx) => (
+                        {/* {examples.map((example, idx) => (
                             <div>
                                 <div className="px-1 mt-6 mb-1 font-medium">
                                     Example {idx + 1}:
@@ -34,7 +34,7 @@ const ProblemDescription = (props) => {
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        ))} */}
                     </div>
                     <div className="grid grid-cols-1 border-orange-400">
                         <div className="">

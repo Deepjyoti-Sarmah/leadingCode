@@ -16,7 +16,7 @@ const Home = () => {
                 <span className=' flex flex-col text-2xl font-light p-3 mb-2'>
                     a platform to solve coding
                     <span className='flex flex-col font-extrabold text-3xl text-blue-500'>
-                        <a href="/problemset/all">{" "}Problems</a>
+                        <a href="/problems/all">{" "}Problems</a>
                     </span>
                     {/* </h2> */}
                 </span>

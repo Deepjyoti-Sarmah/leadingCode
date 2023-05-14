@@ -26,7 +26,7 @@ const Navbar = () => {
                         {/* Problems */}
                         <div className='mx-2 lg:ml-8 lg:block lg: self-stretch'>
                             <div className='flex h-full space-x-8'>
-                                <a href="/problemset/all/" className='flex items-center text-sm font-medium text-gray-300 hover:text-gray-100 '>
+                                <a href="/problems/all" className='flex items-center text-sm font-medium text-gray-300 hover:text-gray-100 '>
                                     Problems
                                 </a>
                             </div>
