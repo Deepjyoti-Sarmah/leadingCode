@@ -43,7 +43,8 @@ const SingleProblem = () => {
                 id={problem.problemId}
                 title={problem.title}
                 statement={problem.description}
-                // examples={problem.examples}
+                exampleIn={problem.exampleIn}
+                exampleOut={problem.exampleOut}
             />
         ):(<div>The searched Question Doesn't exist</div>)
     );
