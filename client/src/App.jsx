@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import { ProblemSet } from './components/ProblemSet';
-import problems from '../data/problemList';
 import SingleProblem from './components/SingleProblem';
 import SignUp from './components/SignUp';
 import Home from './components/Home';
