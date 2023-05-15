@@ -5,14 +5,6 @@ import problemStatements from '../../data/problemStatements';
 import ProblemDescription from './ProblemDescription';
 
 const SingleProblem = () => {
-    // Get _id from url path
-    // const id = Number(useParams()._id);
-
-    // // Get title, diff from database
-    // const problem = problems.filter((item) => item._id === id)[0];
-
-    // // Get Statement, Examples from database
-    // const problemDescription = problemStatements.filter((item) => item._id === id)[0];
 
     const [CodeSeg, setCodeSeg] = useState("");
     const { pid } = useParams() ;
