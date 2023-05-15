@@ -16,6 +16,11 @@ const ProblemDescription = (props) => {
     // const [problem, setProblem] = useState(null);
     const [submission, setSubmission] = useState("");
 
+    function handleEditorChange(value, event) {
+        setSubmission(value);
+    }
+    
+
     
     return (
         <div className="text-gray-100 min-h-screen bg-gray-950">
@@ -53,9 +58,7 @@ const ProblemDescription = (props) => {
                                 defaultValue={defaultCodeSnippets.javascript}
                                 value={defaultCodeSnippets[solutionLanguage]}
                                 theme="vs-dark"
-
-                                // onChange={(e) => setSubmission(e.)}
-
+                                onChange={handleEditorChange}
                             />
                         </div>
                         <div className="flex justify-between text-black mt-auto">
@@ -66,6 +69,9 @@ const ProblemDescription = (props) => {
                                     onClick={ async () => {
                                         const response = await fetch("http://localhost:3000/submission", {
                                             method: "POST",
+                                            headers: {
+                                                "authorization": localStorage.getItem("token")
+                                            },
                                             body: JSON.stringify({
                                                 probelemId: cleanId,
                                                 submission: submission

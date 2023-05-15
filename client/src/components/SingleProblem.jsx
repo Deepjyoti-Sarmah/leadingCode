@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import problems from '../../data/problemList';
-import problemStatements from '../../data/problemStatements';
 import ProblemDescription from './ProblemDescription';
 
 const SingleProblem = () => {
@@ -11,7 +9,7 @@ const SingleProblem = () => {
     const cleanId = pid.substring(1) ;
     const [problem, setProblem] = useState(null);
     // const [submission, setSubmission] = useState("");
-    console.log(cleanId);
+    // console.log(cleanId);
 
     const init = async() => {
         const response = await fetch("http://localhost:3000/problems/"+ cleanId, {
