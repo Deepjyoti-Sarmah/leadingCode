@@ -14,6 +14,12 @@ const ProblemDescription = (props) => {
     const [submission, setSubmission] = useState("");
     const [allsubmission, setAllsubmission] = useState(null);
 
+    const [showTable, setShowTable] = useState(false);
+
+    const handleButtonClick = () => {
+        setShowTable(true);
+    }
+
     const getAllSubmission = async () => {
         const allsubmissionResponse = await fetch(`${backendURL}/submissions/`+cleanId, {
             method: "GET",
@@ -69,8 +75,38 @@ const ProblemDescription = (props) => {
                                         <div className="font-mono">{exampleOut}</div>
                                     </div>
                                 </div>
-                                {
-                                    allsubmission ? (
+
+                                <div className= "flex justify-start w-full mt-auto max-w-xs text-center items-center">
+                                    <button
+                                        className="flex w-[1/4] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        onClick={handleButtonClick}
+                                    >View Submissions</button>
+                                    {
+                                        showTable && (
+                                            <div>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Submissions</th>
+                                                            <th>Status</th>
+                                                        </tr>
+
+                                                        {allsubmission.map((prob, index) => (
+                                                            <tr>
+                                                                <td className='text-white'>{prob.problemId}</td>
+                                                                <td>
+                                                                    {prob.status}
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                                {/* {
+                                    submission ? (
                                 <div>
                                     <table>
                                         <tbody>
@@ -93,7 +129,7 @@ const ProblemDescription = (props) => {
                                     ): (
                                         <div>Not yet submitted</div>
                                     )
-                                }
+                                } */}
                             {/* </div> */}
                         {/* ))} */}
                     </div>
