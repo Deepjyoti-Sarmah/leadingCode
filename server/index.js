@@ -15,6 +15,7 @@ var jwt = require("jsonwebtoken");
 
 const USERS = [];
 let USER_ID_COUNTER = 1;
+
 const SUBMISSIONS = [];
 
 const PROBLEMS = [
