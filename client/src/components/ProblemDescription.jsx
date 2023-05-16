@@ -5,6 +5,7 @@ import { Fragment, useState } from 'react';
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import defaultCodeSnippets from "./defaultCodeSnippets"
 import { useParams } from 'react-router-dom';
+import { backendURL } from '../constant';
 
 const ProblemDescription = (props) => {
     const { id, title, statement, exampleIn, exampleOut} = props;
@@ -19,9 +20,18 @@ const ProblemDescription = (props) => {
     function handleEditorChange(value, event) {
         setSubmission(value);
     }
-    
 
-    
+    const handleKey = (event) => {
+        if (event.key == "Tab"){
+            event.preventDefault();
+            const {selectionStart, selectionEnd, value} = event.target ;
+            const val = value.substring(0, selectionStart)+ "\t" + value.substring(selectionStart);
+            event.target.value = val;
+            event.target.selectionStart = event.target.selectionEnd = selectionStart+1;
+        }
+        setCodeSeg(event.value);
+    }
+
     return (
         <div className="text-gray-100 min-h-screen bg-gray-950">
             <div className="mx-auto px-6 py-4">
@@ -59,6 +69,7 @@ const ProblemDescription = (props) => {
                                 value={defaultCodeSnippets[solutionLanguage]}
                                 theme="vs-dark"
                                 onChange={handleEditorChange}
+                                onKeyDown= {(event) => handleKey(event)}
                             />
                         </div>
                         <div className="flex justify-between text-black mt-auto">
@@ -67,7 +78,7 @@ const ProblemDescription = (props) => {
                                     type="submit"
                                     className="flex align-middle items-center w-full rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                                     onClick={ async () => {
-                                        const response = await fetch("http://localhost:3000/submission", {
+                                        const response = await fetch(`${backendURL}/submission`, {
                                             method: "POST",
                                             headers: {
                                                 "authorization": localStorage.getItem("token")

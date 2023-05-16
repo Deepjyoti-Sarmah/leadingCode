@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import ProblemDescription from './ProblemDescription';
+import {backendURL} from "../constant"
+
 
 const SingleProblem = () => {
 
@@ -12,7 +14,7 @@ const SingleProblem = () => {
     // console.log(cleanId);
 
     const init = async() => {
-        const response = await fetch("http://localhost:3000/problems/"+ cleanId, {
+        const response = await fetch(`${backendURL}/problems/`+ cleanId, {
             method: "GET",
         });
     

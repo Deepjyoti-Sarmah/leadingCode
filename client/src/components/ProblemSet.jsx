@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
+import {backendURL} from "../constant"
 
 export const ProblemSet = () => {
 
     const [problems, setProblems] = useState([]);
 
     const init = async () => {
-        const response = await fetch("http://localhost:3000/problems", {
+        const response = await fetch(`${backendURL}/problems`, {
             method: "GET",
         });
 

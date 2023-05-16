@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import {backendURL} from "../constant"
 
 const Login = () => {
 
@@ -79,7 +80,7 @@ const Login = () => {
                             onClick={async (e) => {
                                 e.preventDefault();
 
-                                const response = await fetch("http://localhost:3000/login", {
+                                const response = await fetch(`${backendURL}/login`, {
                                     method: "POST",
                                     body: JSON.stringify({
                                         email: email,
