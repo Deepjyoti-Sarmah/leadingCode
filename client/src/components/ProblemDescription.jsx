@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Editor } from "@monaco-editor/react";
 import { Listbox, Transition } from "@headlessui/react";
 import { Fragment, useState } from 'react';
@@ -8,15 +8,24 @@ import { useParams } from 'react-router-dom';
 import { backendURL } from '../constant';
 
 const ProblemDescription = (props) => {
-    const { id, title, statement, exampleIn, exampleOut} = props;
+    const { id, title, statement, exampleIn, exampleOut , cleanId} = props;
     const [solutionLanguage, setSolutionLanguage] = useState("cpp");
 
-    const [CodeSeg, setCodeSeg] = useState("") ;
-    const { pid } = useParams() ;
-    const cleanId = pid.substring(1) ;
-    // const [problem, setProblem] = useState(null);
     const [submission, setSubmission] = useState("");
+    const [allsubmission, setAllsubmission] = useState(null);
 
+    const getAllSubmission = async () => {
+        const allsubmissionResponse = await fetch(`${backendURL}/submissions/`+cleanId, {
+            method: "GET",
+            headers: {
+                "authorization": localStorage.getItem("token")
+            },
+        });
+        const allsubmissionJson = await allsubmissionResponse.json();
+        setAllsubmission(allsubmissionJson.submissions);
+        console.log(allsubmissionResponse);
+    }
+ 
     function handleEditorChange(value, event) {
         setSubmission(value);
     }
@@ -31,6 +40,10 @@ const ProblemDescription = (props) => {
         }
         setCodeSeg(event.value);
     }
+
+    useEffect(() => {
+        getAllSubmission();
+    },[])
 
     return (
         <div className="text-gray-100 min-h-screen bg-gray-950">
@@ -56,6 +69,31 @@ const ProblemDescription = (props) => {
                                         <div className="font-mono">{exampleOut}</div>
                                     </div>
                                 </div>
+                                {
+                                    allsubmission ? (
+                                <div>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th>Submissions</th>
+                                                <th>Status</th>
+                                            </tr>
+
+                                            {allsubmission.map((prob, index) => (
+                                                <tr>
+                                                    <td className='text-white'>{prob.problemId}</td>
+                                                    <td>
+                                                        {prob.status}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                    ): (
+                                        <div>Not yet submitted</div>
+                                    )
+                                }
                             {/* </div> */}
                         {/* ))} */}
                     </div>
