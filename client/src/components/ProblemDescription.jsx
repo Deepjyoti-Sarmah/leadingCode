@@ -16,8 +16,20 @@ const ProblemDescription = (props) => {
 
     const [showTable, setShowTable] = useState(false);
 
-    const handleButtonClick = () => {
-        setShowTable(true);
+    const handleButtonClick = async () => {
+        setShowTable(prevState => !prevState);
+        
+        if (!showTable) {
+            // const allsubmissionResponse = await fetch(`${backendURL}/submissions/`+cleanId, {
+            //     method: "GET",
+            //     headers: {
+            //         "authorization": localStorage.getItem("token")
+            //     },
+            // });
+            // const allsubmissionJson = await allsubmissionResponse.json();
+            // setAllsubmission(allsubmissionJson.submissions);
+            getAllSubmission();
+        }
     }
 
     const getAllSubmission = async () => {
@@ -29,23 +41,23 @@ const ProblemDescription = (props) => {
         });
         const allsubmissionJson = await allsubmissionResponse.json();
         setAllsubmission(allsubmissionJson.submissions);
-        console.log(allsubmissionResponse);
+        // console.log(allsubmissionResponse);
     }
- 
+
     function handleEditorChange(value, event) {
         setSubmission(value);
     }
 
-    const handleKey = (event) => {
-        if (event.key == "Tab"){
-            event.preventDefault();
-            const {selectionStart, selectionEnd, value} = event.target ;
-            const val = value.substring(0, selectionStart)+ "\t" + value.substring(selectionStart);
-            event.target.value = val;
-            event.target.selectionStart = event.target.selectionEnd = selectionStart+1;
-        }
-        setCodeSeg(event.value);
-    }
+    // const handleKey = (event) => {
+    //     if (event.key == "Tab"){
+    //         event.preventDefault();
+    //         const {selectionStart, selectionEnd, value} = event.target ;
+    //         const val = value.substring(0, selectionStart)+ "\t" + value.substring(selectionStart);
+    //         event.target.value = val;
+    //         event.target.selectionStart = event.target.selectionEnd = selectionStart+1;
+    //     }
+    //     setCodeSeg(event.value);
+    // }
 
     useEffect(() => {
         getAllSubmission();
@@ -82,7 +94,7 @@ const ProblemDescription = (props) => {
                                         onClick={handleButtonClick}
                                     >View Submissions</button>
                                     {
-                                        showTable && (
+                                        showTable && allsubmission && (
                                             <div>
                                                 <table>
                                                     <tbody>
@@ -92,11 +104,9 @@ const ProblemDescription = (props) => {
                                                         </tr>
 
                                                         {allsubmission.map((prob, index) => (
-                                                            <tr>
-                                                                <td className='text-white'>{prob.problemId}</td>
-                                                                <td>
-                                                                    {prob.status}
-                                                                </td>
+                                                            <tr key= {index}>
+                                                                <td>{prob.problemId}</td>
+                                                                <td>{prob.status}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
