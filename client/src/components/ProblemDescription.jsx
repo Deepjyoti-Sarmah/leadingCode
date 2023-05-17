@@ -88,25 +88,26 @@ const ProblemDescription = (props) => {
                                     </div>
                                 </div>
 
-                                <div className= "flex justify-start w-full mt-auto max-w-xs text-center items-center">
+                                <div className= "flex justify-start w-full mt-auto max-w-xs px-2 py-2 text-center items-center">
                                     <button
                                         className="flex w-[1/4] justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         onClick={handleButtonClick}
                                     >View Submissions</button>
+                                </div>
                                     {
                                         showTable && allsubmission && (
-                                            <div>
-                                                <table>
+                                            <div className='px-2 py-2 '>
+                                                <table className=" divide-y-2 divide-gray-200 text-sm">
                                                     <tbody>
                                                         <tr>
-                                                            <th>Submissions</th>
-                                                            <th>Status</th>
+                                                            <th className='whitespace-nowrap px-2 py-2 font-medium text-white-900'>Problem ID</th>
+                                                            <th className='whitespace-nowrap px-2 py-2 font-medium text-white-900'>Status</th>
                                                         </tr>
 
                                                         {allsubmission.map((prob, index) => (
                                                             <tr key= {index}>
-                                                                <td>{prob.problemId}</td>
-                                                                <td>{prob.status}</td>
+                                                                <td className="px-2 py-2 font-medium ">{prob.problemId}</td>
+                                                                <td className="px-2 py-2 font-medium ">{prob.status}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
@@ -114,32 +115,6 @@ const ProblemDescription = (props) => {
                                             </div>
                                         )
                                     }
-                                </div>
-                                {/* {
-                                    submission ? (
-                                <div>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <th>Submissions</th>
-                                                <th>Status</th>
-                                            </tr>
-
-                                            {allsubmission.map((prob, index) => (
-                                                <tr>
-                                                    <td className='text-white'>{prob.problemId}</td>
-                                                    <td>
-                                                        {prob.status}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                    ): (
-                                        <div>Not yet submitted</div>
-                                    )
-                                } */}
                             {/* </div> */}
                         {/* ))} */}
                     </div>
