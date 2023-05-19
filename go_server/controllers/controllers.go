@@ -2,9 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
 
 	"github.com/DeepjyotiSarmah/go_server/models"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/mux"
 )
 
@@ -21,12 +24,10 @@ var problems = []models.Problems{
 	// Add other problem objects
 }
 
-var users = []models.User{
-	{
-		UserId: "1",
-		Name:   "Jone Wick",
-	},
-}
+var users = []models.User{}
+var userCountId = 1
+
+var submissions = []models.Submissions{}
 
 func GetHome(w http.ResponseWriter, r *http.Request) {
 	response := map[string]string{"msg": "Hello form Server"}
@@ -129,4 +130,151 @@ func GetMe(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetSubmissionById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 
+	ProbelmId := vars["probelmId"]
+	UserId := vars["userId"]
+
+	var filterSubmissions []models.Submissions
+
+	for _, submission := range submissions {
+		if submission.ProblemId == ProbelmId && submission.UserId == UserId {
+			filterSubmissions = append(filterSubmissions, submission)
+		}
+	}
+
+	response := map[string][]models.Submissions{
+		"submission": filterSubmissions,
+	}
+
+	responseData, err := json.Marshal(response)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseData)
+}
+
+func PostSubmission(w http.ResponseWriter, r *http.Request) {
+
+	var requestBody struct {
+		ProbelmId  string `json:"probelmId"`
+		Submission string `json:"submission"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&requestBody); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	isCorrect := rand.Float64() < 0.5
+
+	submission := models.Submissions{
+		ProblemId: requestBody.ProbelmId,
+		UserId:    r.Context().Value("userId").(string),
+		Status:    "WA",
+	}
+
+	if isCorrect {
+		submission.Status = "AC"
+	}
+
+	submissions = append(submissions, submission)
+
+	response := map[string]string{"status": submission.Status}
+
+	responseData, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseData)
+}
+
+func SignUp(w http.ResponseWriter, r *http.Request) {
+
+	var requestSignup struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&requestSignup); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	for _, usr := range users {
+		if usr.Email == requestSignup.Email {
+			http.Error(w, "Email already exits", http.StatusForbidden)
+			return
+		}
+	}
+
+	user := models.User{
+		Email:    requestSignup.Email,
+		Password: requestSignup.Password,
+		UserId:   string(userCountId),
+	}
+
+	users = append(users, user)
+	userCountId++
+
+	response := map[string]string{"msg": "Success"}
+
+	responseData, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseData)
+}
+
+func Login(w http.ResponseWriter, r *http.Request) {
+
+	var requestLogin struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	if err := json.NewDecoder(r.Body).Decode(&requestLogin); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	var user *models.User
+
+	for _, usr := range users {
+		if usr.Email == requestLogin.Email {
+			user = &usr
+			break
+		}
+	}
+
+	if user == nil {
+		http.Error(w, "User not found", http.StatusForbidden)
+		return
+	}
+
+	if user.Password != requestLogin.Password {
+		http.Error(w, "Incorrect Password", http.StatusForbidden)
+		return
+	}
+
+	//Generate JWT Token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id": user.UserId,
+	})
+
+	
+}
