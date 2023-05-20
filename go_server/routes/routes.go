@@ -23,7 +23,7 @@ func SetupRoutes() {
 	r.HandleFunc("/sigin", controllers.SignUp).Methods("POST")
 	r.HandleFunc("/login", controllers.Login).Methods("POST")
 
-	//start server
+	// //start server
 	log.Fatal(http.ListenAndServe(":3000", r))
 
 }

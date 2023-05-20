@@ -30,7 +30,7 @@ import (
 // var submissions = []models.Submissions{}
 
 func GetHome(w http.ResponseWriter, r *http.Request) {
-	response := map[string]string{"msg": "Hello form Server"}
+	response := map[string]string{"msg": "Hello form go Server"}
 
 	responseData, err := json.Marshal(response)
 	if err != nil {
