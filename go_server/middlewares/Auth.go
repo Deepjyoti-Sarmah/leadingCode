@@ -9,13 +9,13 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+const JWT_SECRET = "secret"
+
 type contextKey string
 
 const (
 	userIDContextKey contextKey = "userId"
 )
-
-const JWT_SECRET = "secret"
 
 func Auth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
