@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/DeepjyotiSarmah/go_server/controllers"
-	// "github.com/DeepjyotiSarmah/go_server/middlewares"
+	"github.com/DeepjyotiSarmah/go_server/middlewares"
 
 	"github.com/gorilla/mux"
 )
