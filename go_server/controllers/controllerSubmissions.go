@@ -44,7 +44,7 @@ func GetSubmissionById(w http.ResponseWriter, r *http.Request) {
 func PostSubmission(w http.ResponseWriter, r *http.Request) {
 
 	var requestBody struct {
-		ProbelmId  string `json:"probelmId"`
+		ProblemId  string `json:"problemId"`
 		Submission string `json:"submission"`
 	}
 
@@ -56,7 +56,7 @@ func PostSubmission(w http.ResponseWriter, r *http.Request) {
 	isCorrect := rand.Float64() < 0.5
 
 	submission := models.Submissions{
-		ProblemId: requestBody.ProbelmId,
+		ProblemId: requestBody.ProblemId,
 		UserId:    r.Context().Value("userId").(string),
 		Status:    "WA",
 	}

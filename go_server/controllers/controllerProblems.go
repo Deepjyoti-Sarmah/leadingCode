@@ -88,10 +88,13 @@ func GetProblems(w http.ResponseWriter, r *http.Request) {
 
 	for i, problem := range problems {
 		filterProblems[i] = models.Problems{
-			ProblemId:  problem.ProblemId,
-			Title:      problem.Title,
-			Difficulty: problem.Difficulty,
-			Acceptance: problem.Acceptance,
+			ProblemId:   problem.ProblemId,
+			Title:       problem.Title,
+			Difficulty:  problem.Difficulty,
+			Acceptance:  problem.Acceptance,
+			Description: problem.Description,
+			ExampleIn:   problem.ExampleIn,
+			ExampleOut:  problem.ExampleOut,
 		}
 	}
 
