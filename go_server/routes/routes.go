@@ -29,7 +29,7 @@ func SetupRoutes() {
 	r.HandleFunc("/problems", controllers.GetProblems).Methods("GET")
 	r.HandleFunc("/problems/{id}", controllers.GetProblemById).Methods("GET")
 	r.HandleFunc("/me", middlewares.Auth(controllers.GetMe)).Methods("GET")
-	r.HandleFunc("/submissions/{probelmId}", middlewares.Auth(controllers.GetSubmissionById)).Methods("GET")
+	r.HandleFunc("/submissions/{probelmId}", middlewares.Auth(controllers.GetSubmissionById)).Methods("GET").Headers("Access-Control-Allow-Origin", "*")
 	r.HandleFunc("/submission", middlewares.Auth(controllers.PostSubmission)).Methods("POST")
 	r.HandleFunc("/signup", controllers.SignUp).Methods("POST")
 	r.HandleFunc("/login", controllers.Login).Methods("POST")
