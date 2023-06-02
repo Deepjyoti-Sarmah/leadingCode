@@ -7,6 +7,12 @@ import defaultCodeSnippets from "./defaultCodeSnippets"
 import { useParams } from 'react-router-dom';
 import { backendURL } from '../constant';
 
+const corsOptions = {
+    origin: `${backendURL}`, // Replace with your backend domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 const ProblemDescription = (props) => {
     const { id, title, statement, exampleIn, exampleOut , cleanId} = props;
     const [solutionLanguage, setSolutionLanguage] = useState("cpp");
@@ -60,7 +66,7 @@ const ProblemDescription = (props) => {
     // }
 
     useEffect(() => {
-        getAllSubmission();
+    getAllSubmission();
     },[])
 
     return (
